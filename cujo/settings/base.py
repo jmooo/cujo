@@ -1,6 +1,6 @@
 from .shared import *
 
-SECRET_KEY = '07-fy#8)9mz@=le4kef-lp_0p!&9iz#2urgz-qn)=b_lp9(mih'
+SECRET_KEY = '1=q1v8v7c*wj!q0do%ptz@d4!usl2fzjmmk_**ycf7)1$d%_4r'
 
 DEBUG = True
 
