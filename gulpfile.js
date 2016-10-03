@@ -1,6 +1,6 @@
 // All the libs we're going to be using
 var gulp = require('gulp'),
-    sass = require('gulp-sass'),
+    scss = require('gulp-sass'),
     browserify = require('gulp-browserify'),
     uglify = require('gulp-uglify'),
     watch = require('gulp-watch');
@@ -8,7 +8,7 @@ var gulp = require('gulp'),
 // Our various references
 var frontendDir = './frontend',
     jsDir = frontendDir + '/javascript',
-    sassDir = frontendDir + '/sass',
+    scssDir = frontendDir + '/scss',
     staticDir = './cujo/static';
 
 var captureError = function(error){
@@ -38,8 +38,8 @@ gulp.task('build-test', function(){
 });
 
 gulp.task('build-sass', ['move-fonts'], function(error){
-    return gulp.src(sassDir + '/main.sass')
-        .pipe(sass()).on('error', function(err){
+    return gulp.src(scssDir + '/main.scss')
+        .pipe(scss()).on('error', function(err){
             gutil.log(err);
             this.emit('end');
         })
@@ -61,7 +61,7 @@ gulp.task('build-prod', function(error){
         .pipe(uglify())
         .pipe(gulp.dest(staticDir + '/js/'));
 
-    gulp.src(sassDir + '/main.sass')
+    gulp.src(scssDir + '/main.scss')
         .pipe(sass({compress: true}))
         .pipe(gulp.dest(staticDir + '/css/'));
 
@@ -80,9 +80,9 @@ gulp.task('watch', function(){
         gulp.start('build-test');
     });
 
-    watch(sassDir + "/**/*.{sass}", function() {
+    watch(scssDir + "/**/*.{scss}", function() {
         console.log('');
-        console.log('-- SASS Change Detected --');
+        console.log('-- SCSS Change Detected --');
         gulp.start('build-sass');
     });
 });

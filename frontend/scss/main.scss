@@ -1,0 +1,10 @@
+/*
+  DON'T YOU DARE PUT ANY CSS IN HERE!
+  This should only be used to import less files and NOTHING else!
+  There should be a less for for each element you want to style (tables,
+  forms, etc). Anything you want to apply to ALL pages / elements should
+  be put in the global.less file
+*/
+
+// Use flexbox feature of Bootstrap 4 http://v4-alpha.getbootstrap.com/getting-started/flexbox/
+@import "../../node_modules/bootstrap/scss/bootstrap-flex";
