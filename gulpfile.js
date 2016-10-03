@@ -1,6 +1,6 @@
 // All the libs we're going to be using
 var gulp = require('gulp'),
-    less = require('gulp-less'),
+    sass = require('gulp-sass'),
     browserify = require('gulp-browserify'),
     uglify = require('gulp-uglify'),
     watch = require('gulp-watch');
@@ -8,7 +8,7 @@ var gulp = require('gulp'),
 // Our various references
 var frontendDir = './frontend',
     jsDir = frontendDir + '/javascript',
-    lessDir = frontendDir + '/less',
+    sassDir = frontendDir + '/sass',
     staticDir = './cujo/static';
 
 var captureError = function(error){
@@ -37,9 +37,9 @@ gulp.task('build-test', function(){
         .pipe(gulp.dest('./jasmine/spec/'));
 });
 
-gulp.task('build-less', ['move-fonts'], function(error){
-    return gulp.src(lessDir + '/main.less')
-        .pipe(less()).on('error', function(err){
+gulp.task('build-sass', ['move-fonts'], function(error){
+    return gulp.src(sassDir + '/main.sass')
+        .pipe(sass()).on('error', function(err){
             gutil.log(err);
             this.emit('end');
         })
@@ -51,7 +51,7 @@ gulp.task('move-fonts', function(er){
         .pipe(gulp.dest(staticDir + '/css/fonts/'));
 });
 
-gulp.task('build', ['build-js', 'build-less']);
+gulp.task('build', ['build-js', 'build-sass']);
 gulp.task('build-prod', function(error){
     gulp.src(jsDir + '/main.js')
         .pipe(browserify({
@@ -61,8 +61,8 @@ gulp.task('build-prod', function(error){
         .pipe(uglify())
         .pipe(gulp.dest(staticDir + '/js/'));
 
-    gulp.src(lessDir + '/main.less')
-        .pipe(less({compress: true}))
+    gulp.src(sassDir + '/main.sass')
+        .pipe(sass({compress: true}))
         .pipe(gulp.dest(staticDir + '/css/'));
 
     gulp.src('./node_modules/bootstrap/fonts/**/*')
@@ -80,10 +80,10 @@ gulp.task('watch', function(){
         gulp.start('build-test');
     });
 
-    watch(lessDir + "/**/*.{less}", function() {
+    watch(sassDir + "/**/*.{sass}", function() {
         console.log('');
-        console.log('-- LESS Change Detected --');
-        gulp.start('build-less');
+        console.log('-- SASS Change Detected --');
+        gulp.start('build-sass');
     });
 });
 
