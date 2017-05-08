@@ -15,13 +15,13 @@
             </tr>
           </thead>
           <tbody>
-            {% for req in request_list %}
+            {% for ticket in tickets %}
               <tr>
-                <td>{{ req.created_date|date:"DATE_FORMAT" }}</td>
-                <td><a href="{% url 'edit_request' pk=req.pk %}">{{ req.client }}</a></td>
-                <td>{{ req.address_city }}</td>
-                <td>{{ req.address_state }}</td>
-                <td>{{ req.salesperson }}</td>
+                <td>{{ ticket.created_date|date:"DATE_FORMAT" }}</td>
+                <td><a href="{% url 'ticket_edit' pk=ticket.pk %}">{{ ticket.client }}</a></td>
+                <td>{{ ticket.address_city }}</td>
+                <td>{{ ticket.address_state }}</td>
+                <td>{{ ticket.salesperson }}</td>
               </tr>
             {% endfor %}
           </tbody>

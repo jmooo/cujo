@@ -1,0 +1,10 @@
+{% extends 'page_setup.html' %}
+
+{% block content %}
+  <div>
+    <p>created: {{ ticket.created_date }}</p>
+    <p>by: {{ ticket.creator }}</p>
+    <h1>{{ ticket.client }}</h1>
+    <p>Request: {{ ticket.description|linebreaksbr }}</p>
+  </div>
+{% endblock %}
