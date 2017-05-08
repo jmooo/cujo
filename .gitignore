@@ -1,6 +1,9 @@
 
 # Created by https://www.gitignore.io/api/python,osx,node
 
+static/
+OLDSITE/
+
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -158,4 +161,3 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
-

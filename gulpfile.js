@@ -1,90 +1,40 @@
-// All the libs we're going to be using
-var gulp = require('gulp'),
-    scss = require('gulp-sass'),
-    browserify = require('gulp-browserify'),
-    uglify = require('gulp-uglify'),
-    watch = require('gulp-watch');
+var gulp = require('gulp');
+var scss = require('gulp-sass');
+var uglify = require('gulp-uglify');
+var livereload = require('gulp-livereload');
+var browserify = require('browserify');
+var source = require('vinyl-source-stream');
 
-// Our various references
-var frontendDir = './frontend',
-    jsDir = frontendDir + '/javascript',
-    scssDir = frontendDir + '/scss',
-    staticDir = './cujo/static';
+// Path shortcuts
+var assetsPath = './assets',
+  jsPath = assetsPath + '/javascript',
+  scssPath = assetsPath + '/scss',
+  staticPath = './static';
 
-var captureError = function(error){
-    console.error(error.toString());
-    this.emit('end');
-};
 
-gulp.task('build-js', function(){
-    return gulp.src(jsDir + '/main.js')
-        .pipe(browserify({
-            insertGlobals: false,
-            debug: false,
-            transform: []
-        }))
-        .on('error', captureError)
-        .pipe(gulp.dest(staticDir + '/js/'));
+gulp.task('build-scss', function() {
+  return gulp.src(scssPath + '/main.scss')
+    .pipe(scss())
+    .pipe(gulp.dest(staticPath + '/css/'))
+    .pipe(livereload());
 });
 
-gulp.task('build-test', function(){
-    return gulp.src(jsDir + '/tests/testSpec.js')
-        .pipe(browserify({
-            insertGlobals: false,
-            debug: false
-        }))
-        .on('error', captureError)
-        .pipe(gulp.dest('./jasmine/spec/'));
+gulp.task('build-js', function() {
+  return browserify(jsPath + '/main.js')
+    .bundle()
+    .pipe(source('main.js'))
+    .pipe(gulp.dest(staticPath + '/js/'))
+    .pipe(livereload());
 });
 
-gulp.task('build-sass', ['move-fonts'], function(error){
-    return gulp.src(scssDir + '/main.scss')
-        .pipe(scss()).on('error', function(err){
-            gutil.log(err);
-            this.emit('end');
-        })
-        .pipe(gulp.dest(staticDir + '/css/'));
+gulp.task('watch', function() {
+  livereload.listen();
+  gulp.watch(scssPath + '/**/*.scss', ['build-scss']);
+  gulp.watch(jsPath + '/**/*.js', ['build-js']);
+
+  /* Trigger a live reload on any Django template changes */
+  gulp.watch('**/templates/*').on('change', livereload.changed);
 });
 
-gulp.task('move-fonts', function(er){
-    return gulp.src('./node_modules/bootstrap/fonts/**/*')
-        .pipe(gulp.dest(staticDir + '/css/fonts/'));
-});
-
-gulp.task('build', ['build-js', 'build-sass']);
-gulp.task('build-prod', function(error){
-    gulp.src(jsDir + '/main.js')
-        .pipe(browserify({
-            debug: false,
-            transform: [reactify]
-        }))
-        .pipe(uglify())
-        .pipe(gulp.dest(staticDir + '/js/'));
-
-    gulp.src(scssDir + '/main.scss')
-        .pipe(sass({compress: true}))
-        .pipe(gulp.dest(staticDir + '/css/'));
-
-    gulp.src('./node_modules/bootstrap/fonts/**/*')
-        .pipe(gulp.dest(staticDir + '/css/fonts/'));
-});
-
-gulp.task('watch', function(){
-    gulp.start('build');
-    gulp.start('build-test');
-
-    watch(jsDir + "/**/*.{js,jsx}", function() {
-        console.log('');
-        console.log('-- JS Change Detected --');
-        gulp.start('build-js');
-        gulp.start('build-test');
-    });
-
-    watch(scssDir + "/**/*.{scss}", function() {
-        console.log('');
-        console.log('-- SCSS Change Detected --');
-        gulp.start('build-sass');
-    });
-});
-
+gulp.task('build', ['build-scss', 'build-js']);
 gulp.task('default', ['build']);

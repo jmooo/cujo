@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block body_content %}
+  <div id="header">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="main-logo">
+            <h1>CuJo</h1>
+            Custom Job Requests
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="main-content">
+    <div class="container">
+      {% block content %}
+      {% endblock %}
+    </div>
+  </div>
+
+  <div id="footer">
+    <div class="container">
+      <div class="row">
+        <div class="container">
+          &copy; 2017
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

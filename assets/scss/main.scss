@@ -6,5 +6,9 @@
   be put in the global.less file
 */
 
-// Use flexbox feature of Bootstrap 4 http://v4-alpha.getbootstrap.com/getting-started/flexbox/
-@import "../../node_modules/bootstrap/scss/bootstrap-flex";
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+
+@import "footer";
+@import "header";
+@import "logo";
