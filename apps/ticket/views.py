@@ -2,14 +2,30 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.contrib.postgres.search import SearchQuery, SearchRank
 from django.db.models import F
+from django.views.generic import ListView
 
 from .models import Ticket
 from .forms import TicketForm
 
 
-def ticket_list(request):
-    tickets = Ticket.objects.all().order_by('-date_modified')
-    return render(request, 'ticket/ticket_list.html', {'tickets': tickets})
+class TicketListView(ListView):
+    model = Ticket
+
+    def get_queryset(self):
+        qs = super().get_queryset().order_by('-date_modified')
+
+        q = self.request.GET.get('q')
+        if q:
+            query = SearchQuery(q)
+            qs = qs.annotate(rank=SearchRank(F('search_vector'), query)) \
+                    .filter(search_vector=query) \
+                    .order_by('-rank')
+        return qs
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(
+            q=self.request.GET.get('q', "")
+        )
 
 
 def ticket_new(request):
@@ -44,17 +60,3 @@ def ticket_edit(request, pk):
         form = TicketForm(instance=ticket)
 
     return render(request, 'ticket/ticket_edit.html', {'form':form, 'ticket':ticket})
-
-
-def ticket_search(request):
-    q = request.GET.get('q')
-    if q:
-        query = SearchQuery(q)
-        result = Ticket.objects.annotate(rank=SearchRank(F('search_vector'), query)) \
-                    .filter(search_vector=query) \
-                    .order_by('-rank')
-
-        return render(request, 'ticket/ticket_list.html',
-                        {'tickets':result, 'ticket_list_name':'Search Results'})
-
-    return redirect('ticket_list', '')

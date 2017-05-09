@@ -22,8 +22,8 @@
               </a>
             </li>
           </ul>
-          <form name="searchform" method="GET" action="{% url 'ticket_search' %}" class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search">
+          <form name="searchform" method="GET" action="{% url 'ticket_list' %}" class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" name="q" value="{{ q }}" placeholder="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
               <i class="fa fa-search" aria-hidden="true"></i></button>
           </form>
@@ -45,8 +45,7 @@
     <div class="container">
       <div class="row">
         <div class="col text-center">
-          <a href="mailto:justin@justinmontgomery.com?subject=I hate CuJo and this is why, jerk&body=Sincerely, GFY" class="btn btn-outline-info" target="_blank">
-            Complain to Justin <i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+          CuJo - Custom Job Ticketing
         </div>
       </div>
     </div>
