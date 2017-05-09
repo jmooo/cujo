@@ -1,12 +1,43 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
+from django.utils import timezone
 from .models import Ticket
 from .forms import TicketForm
 
 
 def ticket_list(request):
-    tickets = Ticket.objects.all().order_by('created_date')
+    tickets = Ticket.objects.all().order_by('-date_modified')
     return render(request, 'ticket/ticket_list.html', {'tickets': tickets})
+
+
+def ticket_new(request):
+    ticket = Ticket()
+    if request.method == "POST":
+        form = TicketForm(request.POST, instance=ticket)
+        if form.is_valid():
+            ticket = form.save(commit=False)
+            ticket.created_by = request.user.get_full_name()
+            ticket.modified_by = request.user.get_full_name()
+            ticket.date_created = timezone.now()
+            ticket.date_modified = timezone.now()
+            ticket.save()
+            return redirect('ticket_edit', pk=ticket.pk)
+    else:
+        form = TicketForm(instance=ticket)
+
+    return render(request, 'ticket/ticket_edit.html', {'form': form})
+
 
 def ticket_edit(request, pk):
     ticket = get_object_or_404(Ticket, pk=pk)
-    return render(request, 'ticket/ticket_edit.html', {'ticket': ticket})
+    if request.method == "POST":
+        form = TicketForm(request.POST, instance=ticket)
+        if form.is_valid():
+            ticket = form.save(commit=False)
+            ticket.date_modified = timezone.now()
+            ticket.modified_by = request.user.get_full_name()
+            ticket.save()
+            return redirect('ticket_edit', pk=ticket.pk)
+    else:
+        form = TicketForm(instance=ticket)
+
+    return render(request, 'ticket/ticket_edit.html', {'form':form, 'ticket':ticket})

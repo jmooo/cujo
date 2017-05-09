@@ -12,14 +12,14 @@ var assetsPath = './assets',
   staticPath = './static';
 
 
-gulp.task('build-scss', function() {
+gulp.task('styles', function() {
   return gulp.src(scssPath + '/main.scss')
     .pipe(scss())
     .pipe(gulp.dest(staticPath + '/css/'))
     .pipe(livereload());
 });
 
-gulp.task('build-js', function() {
+gulp.task('scripts', function() {
   return browserify(jsPath + '/main.js')
     .bundle()
     .pipe(source('main.js'))
@@ -27,14 +27,19 @@ gulp.task('build-js', function() {
     .pipe(livereload());
 });
 
+gulp.task('fonts', function() {
+  return gulp.src('./node_modules/font-awesome/fonts/fontawesome-webfont.*')
+    .pipe(gulp.dest(staticPath + '/fonts/'));
+});
+
 gulp.task('watch', function() {
   livereload.listen();
-  gulp.watch(scssPath + '/**/*.scss', ['build-scss']);
-  gulp.watch(jsPath + '/**/*.js', ['build-js']);
+  gulp.watch(scssPath + '/**/*.scss', ['styles']);
+  gulp.watch(jsPath + '/**/*.js', ['scripts']);
 
   /* Trigger a live reload on any Django template changes */
   gulp.watch('**/templates/*').on('change', livereload.changed);
 });
 
-gulp.task('build', ['build-scss', 'build-js']);
+gulp.task('build', ['styles', 'scripts', 'fonts']);
 gulp.task('default', ['build']);

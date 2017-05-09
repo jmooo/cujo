@@ -2,3 +2,8 @@
 global.jQuery = require('jquery');
 global.Tether = require('tether');
 require('bootstrap');
+
+var $ = global.jQuery;
+window.$ = $;
+
+require('./ticket_list');

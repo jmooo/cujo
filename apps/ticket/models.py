@@ -1,19 +1,22 @@
 from django.db import models
 from django.utils import timezone
-from localflavor.us.us_states import STATE_CHOICES
-from localflavor.us.models import USStateField, USZipCodeField
+
 
 class Ticket(models.Model):
-    creator = models.ForeignKey('auth.User')
+    created_by = models.CharField(max_length=255)
+    modified_by = models.CharField(max_length=255)
     salesperson = models.CharField(max_length=255)
-    client = models.CharField(max_length=255)
-    description = models.TextField()
-    address = models.CharField(max_length=255)
-    address_apt = models.CharField(max_length=255, blank=True)
-    address_city = models.CharField(max_length=100)
-    address_state = USStateField(choices=STATE_CHOICES)
-    address_zip = USZipCodeField(max_length=12)
-    created_date = models.DateTimeField(default=timezone.now)
+    customer = models.CharField(max_length=255)
+    address = models.TextField()
+    phone = models.CharField(max_length=20, null=True, blank=True)
+    email = models.CharField(max_length=255, null=True, blank=True)
+    date_created = models.DateTimeField(default=timezone.now)
+    date_modified = models.DateTimeField(default=timezone.now)
+    date_completed = models.DateField(null=True, blank=True)
+    work_requested = models.TextField()
+    work_completed = models.TextField(null=True, blank=True)
+    installers = models.CharField(max_length=255, null=True, blank=True)
+
 
     def __str__(self):
         return self.client

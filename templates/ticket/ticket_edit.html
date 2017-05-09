@@ -1,10 +1,29 @@
 {% extends 'page_setup.html' %}
 
+{% load crispy_forms_tags %}
+
+{% block title %}Edit Ticket{% endblock %}
+
+
 {% block content %}
-  <div>
-    <p>created: {{ ticket.created_date }}</p>
-    <p>by: {{ ticket.creator }}</p>
-    <h1>{{ ticket.client }}</h1>
-    <p>Request: {{ ticket.description|linebreaksbr }}</p>
+  <div class="row">
+    <div class="col-8">
+      {% crispy form %}
+    </div>
+
+    <div class="col mt-4">
+      <div class="row">
+        <div class="col">
+          Created {{ ticket.date_created }}<br/>
+          by {{ ticket.created_by }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          Modified {{ ticket.date_modified }}<br/>
+          by {{ ticket.modified_by }}
+        </div>
+      </div>
+    </div>
   </div>
 {% endblock %}

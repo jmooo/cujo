@@ -4,6 +4,9 @@
 static/
 OLDSITE/
 
+# Don't check in migraitons while heavy in development
+migrations/
+
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/

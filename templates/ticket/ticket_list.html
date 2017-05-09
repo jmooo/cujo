@@ -1,32 +1,34 @@
 {% extends 'page_setup.html' %}
 
+{% load misc_tags %}
+
+{% block title %}Ticket List{% endblock %}
+
 {% block content %}
-  <div class="row">
+  <div id="ticket-list" class="row">
     <div class="col">
-      <div>
-        <table class="table table-hover table-sm">
-          <thead class="thead-default">
+      <h3 class="text-center text-uppercase">Ticket List</h3>
+
+      <table class="table table-hover table-sm">
+        <thead class="thead-default">
+          <tr>
+            <th>Updated</th>
+            <th>Customer</th>
+            <th>Address</th>
+            <th>Salesperson</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for ticket in tickets %}
             <tr>
-              <th>Created</th>
-              <th>Client</th>
-              <th>City</th>
-              <th>State</th>
-              <th>Salesperson</th>
+              <td>{{ ticket.date_modified|humanizetime }}</td>
+              <td><a href="{% url 'ticket_edit' pk=ticket.pk %}">{{ ticket.customer }}</a></td>
+              <td>{{ ticket.address }}</td>
+              <td>{{ ticket.salesperson }}</td>
             </tr>
-          </thead>
-          <tbody>
-            {% for ticket in tickets %}
-              <tr>
-                <td>{{ ticket.created_date|date:"DATE_FORMAT" }}</td>
-                <td><a href="{% url 'ticket_edit' pk=ticket.pk %}">{{ ticket.client }}</a></td>
-                <td>{{ ticket.address_city }}</td>
-                <td>{{ ticket.address_state }}</td>
-                <td>{{ ticket.salesperson }}</td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
   </div>
 {% endblock %}
