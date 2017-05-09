@@ -1,29 +1,36 @@
 {% extends 'page_setup.html' %}
 
+{% load misc_tags %}
 {% load crispy_forms_tags %}
 
 {% block title %}Edit Ticket{% endblock %}
 
 
 {% block content %}
-  <div class="row">
-    <div class="col-8">
-      {% crispy form %}
-    </div>
+  <div id="ticketEdit">
 
-    <div class="col mt-4">
-      <div class="row">
-        <div class="col">
-          Created {{ ticket.date_created }}<br/>
-          by {{ ticket.created_by }}
-        </div>
+    <div class="row">
+      <div class="col-8">
+        {% crispy form %}
       </div>
-      <div class="row">
-        <div class="col">
-          Modified {{ ticket.date_modified }}<br/>
-          by {{ ticket.modified_by }}
+
+      <div id="ticketEditSidebar" class="col mt-4 ml-4">
+        {% if ticket.date_created %}
+          <div class="row mb-4">
+            <div class="col">
+              <span class="sidebar-label">Created</span> {{ ticket.date_created|humanizetime }}<br/>
+              <span class="sidebar-label">By</span> {{ ticket.created_by}}
+            </div>
+          </div>
+          <div class="row mb-4">
+            <div class="col">
+              <span class="sidebar-label">Modified</span> {{ ticket.date_modified|humanizetime }}<br/>
+              <span class="sidebar-label">By</span> {{ ticket.modified_by }}
+            </div>
         </div>
+        {% endif %}
       </div>
+
     </div>
   </div>
 {% endblock %}

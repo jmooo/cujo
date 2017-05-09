@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'django.contrib.postgres',
 
     # Extra packages
     'crispy_forms',
@@ -90,7 +91,7 @@ WSGI_APPLICATION = 'cujo.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'cujo',
         'USER': 'cujo',
         'PASSWORD': '2+CKbkpaT-Uy9tmsJ3QgZB?XjSnhuA@r',

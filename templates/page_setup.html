@@ -5,7 +5,7 @@
 {% block body_content %}
   <div id="header">
     <div class="container">
-      <nav class="navbar navbar-toggleable-md navbar-light my-2">
+      <nav class="navbar navbar-toggleable-md navbar-light">
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -14,15 +14,18 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-              <a class="btn btn-outline-primary" href="{% url 'ticket_new' %}">
+              <a class="nav-link" href="{% url 'ticket_list' %}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'ticket_new' %}">
                 New Ticket <i class="fa fa-plus" aria-hidden="true"></i>
               </a>
             </li>
           </ul>
-          <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search">
+          <form name="searchform" method="GET" action="{% url 'ticket_search' %}" class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-              Search <i class="fa fa-search" aria-hidden="true"></i></button>
+              <i class="fa fa-search" aria-hidden="true"></i></button>
           </form>
         </div>
       </nav>
@@ -41,7 +44,7 @@
   <div id="footer">
     <div class="container">
       <div class="row">
-        <div class="col">
+        <div class="col text-center">
           <a href="mailto:justin@justinmontgomery.com?subject=I hate CuJo and this is why, jerk&body=Sincerely, GFY" class="btn btn-outline-info" target="_blank">
             Complain to Justin <i class="fa fa-envelope-o" aria-hidden="true"></i></a>
         </div>

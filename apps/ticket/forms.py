@@ -12,12 +12,12 @@ class TicketForm(forms.ModelForm):
             '',
             Div(
                 Div(
-                    Div('customer', css_class='text-uppercase'),
-                    Div('address', css_class='text-uppercase'),
+                    Div('customer'),
+                    Div('address'),
                     css_class='col',
                 ),
                 Div(
-                    Div('salesperson', css_class='text-uppercase'),
+                    Div('salesperson'),
                     Div(PrependedText('phone', '<i class="fa fa-phone" aria-hidden="true"></i>')),
                     Div(PrependedText('email', '<i class="fa fa-envelope-o" aria-hidden="true"></i>')),
                     css_class='col'
@@ -25,17 +25,17 @@ class TicketForm(forms.ModelForm):
                 css_class="row",
             ),
             Div(
-                Div('work_requested', css_class='col text-uppercase'),
+                Div('work_requested', css_class='col'),
                 css_class='row',
             ),
             Div(
-                Div('work_completed', css_class='col text-uppercase'),
+                Div('work_completed', css_class='col'),
                 css_class='row',
             ),
             Div(
-                Div('installers', css_class='col text-uppercase'),
+                Div('installers', css_class='col'),
                 Div(PrependedText('date_completed', '<i class="fa fa-calendar" aria-hidden="true"></i>'),
-                                    css_class='col text-uppercase'),
+                                    css_class='col'),
                 css_class='row',
             ),
         ),
