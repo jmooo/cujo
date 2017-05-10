@@ -7,16 +7,10 @@
 {% block content %}
   <div id="ticket-list" class="row">
     <div class="col">
-      <h3 class="text-center text-uppercase">
-        {% if ticket_list_name %}
-          {{ ticket_list_name }}
-        {% else %}
-          Tickets
-        {% endif %}
-      </h3>
+
 
       <table class="table table-hover table-sm">
-        <thead class="thead-default">
+        <thead>
           <tr>
             <th>Updated</th>
             <th>Customer</th>

@@ -9,3 +9,20 @@ a {
 nav {
   margin: 15px 0;
 }
+
+.btn-outline-primary {
+  color: $brand-teal;
+  border-color: $brand-teal;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus,
+.btn-outline-primary:active,
+.btn-outline-primary.active {
+  background-color: $brand-teal;
+  border-color: $brand-teal;
+}
+
+.form-control:focus {
+  border-color: $brand-teal;
+}

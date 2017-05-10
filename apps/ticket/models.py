@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils import timezone
 from django.contrib.postgres.search import SearchVector, SearchVectorField
 from django.contrib.postgres.indexes import GinIndex
 
@@ -23,8 +22,8 @@ class Ticket(models.Model):
     address = models.TextField()
     phone = models.CharField(max_length=20, null=True, blank=True)
     email = models.CharField(max_length=255, null=True, blank=True)
-    date_created = models.DateTimeField(default=timezone.now)
-    date_modified = models.DateTimeField(default=timezone.now)
+    date_created = models.DateTimeField()
+    date_modified = models.DateTimeField()
     date_completed = models.DateField(null=True, blank=True)
     work_requested = models.TextField()
     work_completed = models.TextField(null=True, blank=True)

@@ -1,6 +1,6 @@
 from django import forms
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Button, Fieldset, HTML, Div
+from crispy_forms.layout import Layout, Submit, Fieldset, HTML, Div
 from crispy_forms.bootstrap import FormActions, PrependedText
 from .models import Ticket
 
@@ -44,7 +44,7 @@ class TicketForm(forms.ModelForm):
             HTML("""<a href="{% url "ticket-list" %}" class="btn btn-secondary">Cancel</a>"""),
             HTML("""{% if object %}
                     <a href="{% url "ticket-delete" object.id %}"
-                    class="btn btn-danger pull-right">
+                    class="btn btn-outline-danger pull-right">
                     Delete <i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
                     {% endif %}"""),
         )
