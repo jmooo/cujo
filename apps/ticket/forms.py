@@ -33,7 +33,7 @@ class TicketForm(forms.ModelForm):
                 css_class='row',
             ),
             Div(
-                Div('installers', css_class='col'),
+                Div('installers', css_class='col self.helper.form_id'),
                 Div(PrependedText('date_completed', '<i class="fa fa-calendar" aria-hidden="true"></i>'),
                                     css_class='col'),
                 css_class='row',
@@ -41,14 +41,19 @@ class TicketForm(forms.ModelForm):
         ),
         FormActions(
             Submit('submit', 'Save', css_class="btn btn-outline-success"),
-            HTML("""<a href="{% url "ticket_list" %}" class="btn btn-secondary">Cancel</a>""")
+            HTML("""<a href="{% url "ticket-list" %}" class="btn btn-secondary">Cancel</a>"""),
+            HTML("""{% if object %}
+                    <a href="{% url "ticket-delete" object.id %}"
+                    class="btn btn-danger pull-right">
+                    Delete <i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
+                    {% endif %}"""),
         )
     )
 
     class Meta:
         model = Ticket
         fields = ('customer', 'salesperson', 'address', 'phone', 'email',
-                    'installers', 'work_requested', 'work_completed', 'date_completed')
+                    'installers', 'work_requested', 'work_completed', 'date_completed',)
         widgets = {
           'address': forms.Textarea(attrs={'rows':4}),
           'email': forms.TextInput(attrs={'placeholder':'Email'}),

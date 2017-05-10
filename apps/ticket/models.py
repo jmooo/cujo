@@ -5,7 +5,7 @@ from django.contrib.postgres.indexes import GinIndex
 
 
 class TicketManager(models.Manager):
-    """ Add documents to the queryset
+    """ Add document fields we want to the queryset
     """
     def with_documents(self):
         vector = SearchVector('customer', weight='A') + \
@@ -34,6 +34,8 @@ class Ticket(models.Model):
     objects = TicketManager()
 
     def save(self, *args, **kwargs):
+        """ Override save to update search_vector field for row when updated
+        """
         super().save(*args, **kwargs)
         if 'update_fields' not in kwargs or 'search_vector' not in kwargs['update_fields']:
             instance = self._meta.default_manager.with_documents().get(pk=self.pk)

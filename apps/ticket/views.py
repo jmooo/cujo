@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.contrib.postgres.search import SearchQuery, SearchRank
 from django.db.models import F
-from django.views.generic import ListView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 
 from .models import Ticket
 from .forms import TicketForm
@@ -27,36 +27,35 @@ class TicketListView(ListView):
             q=self.request.GET.get('q', "")
         )
 
+class TicketCreateView(CreateView):
+    model = Ticket
+    form_class = TicketForm
 
-def ticket_new(request):
-    ticket = Ticket()
-    if request.method == 'POST':
-        form = TicketForm(request.POST, instance=ticket)
-        if form.is_valid():
-            ticket = form.save(commit=False)
-            ticket.created_by = request.user.get_full_name()
-            ticket.modified_by = request.user.get_full_name()
-            ticket.date_created = timezone.now()
-            ticket.date_modified = timezone.now()
-            ticket.save()
-            return redirect('ticket_edit', pk=ticket.pk)
-    else:
-        form = TicketForm(instance=ticket)
+    def form_valid(self, form):
+        form.instance.date_modified = timezone.now()
+        form.instance.date_created = form.instance.date_modified
+        form.instance.created_by = self.request.user.get_full_name()
+        form.instance.modified_by = form.instance.created_by
+        return super(TicketCreateView, self).form_valid(form)
 
-    return render(request, 'ticket/ticket_edit.html', {'form': form})
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('ticket-edit', args = (self.object.id,))
 
 
-def ticket_edit(request, pk):
-    ticket = get_object_or_404(Ticket, pk=pk)
-    if request.method == 'POST':
-        form = TicketForm(request.POST, instance=ticket)
-        if form.is_valid():
-            ticket = form.save(commit=False)
-            ticket.date_modified = timezone.now()
-            ticket.modified_by = request.user.get_full_name()
-            ticket.save()
-            return redirect('ticket_edit', pk=ticket.pk)
-    else:
-        form = TicketForm(instance=ticket)
+class TicketUpdateView(UpdateView):
+    model = Ticket
+    form_class = TicketForm
 
-    return render(request, 'ticket/ticket_edit.html', {'form':form, 'ticket':ticket})
+    def form_valid(self, form):
+        form.instance.date_modified = timezone.now()
+        form.instance.modified_by = self.request.user.get_full_name()
+        return super(TicketUpdateView, self).form_valid(form)
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('ticket-edit', args = (self.object.id,))
+
+
+class TicketDeleteView(DeleteView):
+    model = Ticket
+    form_class = TicketForm
+    success_url = reverse_lazy('ticket-list')

@@ -1,0 +1,31 @@
+{% extends 'page_setup.html' %}
+
+{% load misc_tags %}
+
+{% block title %}Delete Ticket{% endblock %}
+
+
+{% block content %}
+  <div id="ticketDelete">
+
+    <div class="row">
+      <div class="col text-center">
+        <h3>Confirm Ticket Deletion</h3>
+        Customer: {{ object.customer }} <br/>
+        Created: {{ object.date_created|humanizetime }}
+
+        <div class="my-4">
+          <form action="" method="post">
+            {% csrf_token %}
+            <button class="btn btn-danger mr-4" type="submit" value="Confirm">
+              Delete <i class="fa fa-trash-o" aria-hidden="true"></i></button>
+            <button onclick="window.history.back();" class="btn btn-secondary" type="button">
+              Cancel</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+{% endblock %}

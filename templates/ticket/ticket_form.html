@@ -3,18 +3,18 @@
 {% load misc_tags %}
 {% load crispy_forms_tags %}
 
-{% block title %}Edit Ticket{% endblock %}
+{% block title %}Ticket Detail{% endblock %}
 
 
 {% block content %}
-  <div id="ticketEdit">
+  <div id="ticketForm">
 
     <div class="row">
       <div class="col-8">
         {% crispy form %}
       </div>
 
-      <div id="ticketEditSidebar" class="col mt-4 ml-4">
+      <div id="ticketFormSidebar" class="col mt-4 ml-4">
         {% if ticket.date_created %}
           <div class="row mb-4">
             <div class="col">

@@ -28,7 +28,7 @@
           {% for ticket in object_list %}
             <tr>
               <td>{{ ticket.date_modified|humanizetime }}</td>
-              <td><a href="{% url 'ticket_edit' pk=ticket.pk %}">{{ ticket.customer }}</a></td>
+              <td><a href="{% url 'ticket-edit' pk=ticket.pk %}">{{ ticket.customer }}</a></td>
               <td>{{ ticket.address }}</td>
               <td>{{ ticket.salesperson }}</td>
             </tr>
