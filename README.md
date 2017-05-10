@@ -1,6 +1,6 @@
-# **Cu**stom **Jo**b Work Request Manager
+# Custom Job (cujo) Work Ticket Manager
 
-Ticket system for the management of custom work requests, job logs and service tickets.
+Ticket system combines management of several concepts, such as work requests, job logs and service tickets.
 
 ## Usage
 * `pip install -r requirements.txt` - Install required components
@@ -18,15 +18,5 @@ Ticket system for the management of custom work requests, job logs and service t
 * `django-admin startapp module_name` - Create file layout for a new Django module
 
 
-## To-Do
-* Paginate ticket-list
-* Add account model
-* Add "save success" type bootstrap alerts
-
-
 ## License
 MIT (see [LICENSE](LICENSE.md))
-
-
-## Resources
-Folder structure loosely based on this [Django Template](https://bitbucket.org/AaronPresley/django-project-template)
