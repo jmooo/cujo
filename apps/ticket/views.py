@@ -1,4 +1,3 @@
-from django.utils import timezone
 from django.contrib.postgres.search import SearchQuery, SearchRank
 from django.db.models import F
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
@@ -27,13 +26,12 @@ class TicketListView(ListView):
             q=self.request.GET.get('q', "")
         )
 
+
 class TicketCreateView(CreateView):
     model = Ticket
     form_class = TicketForm
 
     def form_valid(self, form):
-        form.instance.date_modified = timezone.now()
-        form.instance.date_created = form.instance.date_modified
         form.instance.created_by = self.request.user.get_full_name()
         form.instance.modified_by = form.instance.created_by
         return super(TicketCreateView, self).form_valid(form)
@@ -47,7 +45,6 @@ class TicketUpdateView(UpdateView):
     form_class = TicketForm
 
     def form_valid(self, form):
-        form.instance.date_modified = timezone.now()
         form.instance.modified_by = self.request.user.get_full_name()
         return super(TicketUpdateView, self).form_valid(form)
 
