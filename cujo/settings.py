@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost']
 
+AUTH_USER_MODEL = 'account.AccountUser'
+
 # Enable use of 'if debug' in templates (google analytics, etc)
 INTERNAL_IPS = (
     '0.0.0.0',
@@ -35,9 +37,12 @@ INTERNAL_IPS = (
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+SITE_ID = 1
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.sites',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -49,6 +54,7 @@ INSTALLED_APPS = [
     'crispy_forms',
 
     # Custom apps
+    'apps.account',
     'apps.utils',
     'apps.ticket',
 ]
