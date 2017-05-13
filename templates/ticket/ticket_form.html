@@ -19,13 +19,13 @@
           <div class="row mb-4">
             <div class="col">
               <span class="sidebar-label">Created</span> {{ ticket.date_created|humanizetime }}<br/>
-              <span class="sidebar-label">By</span> {{ ticket.created_by}}
+              <span class="sidebar-label">By</span> {{ ticket.created_by.get_full_name|user_exists }}
             </div>
           </div>
           <div class="row mb-4">
             <div class="col">
               <span class="sidebar-label">Modified</span> {{ ticket.date_modified|humanizetime }}<br/>
-              <span class="sidebar-label">By</span> {{ ticket.modified_by }}
+              <span class="sidebar-label">By</span> {{ ticket.modified_by.get_full_name|user_exists }}
             </div>
         </div>
         {% endif %}

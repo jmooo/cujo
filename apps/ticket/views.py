@@ -2,12 +2,12 @@ from django.contrib.postgres.search import SearchQuery, SearchRank
 from django.db.models import F
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Ticket
 from .forms import TicketForm
 
-
-class TicketListView(ListView):
+class TicketListView(LoginRequiredMixin, ListView):
     model = Ticket
 
     def get_queryset(self):
@@ -27,12 +27,12 @@ class TicketListView(ListView):
         )
 
 
-class TicketCreateView(CreateView):
+class TicketCreateView(LoginRequiredMixin, CreateView):
     model = Ticket
     form_class = TicketForm
 
     def form_valid(self, form):
-        form.instance.created_by = self.request.user.get_full_name()
+        form.instance.created_by = self.request.user
         form.instance.modified_by = form.instance.created_by
         return super(TicketCreateView, self).form_valid(form)
 
@@ -40,19 +40,19 @@ class TicketCreateView(CreateView):
         return reverse_lazy('ticket-edit', args = (self.object.id,))
 
 
-class TicketUpdateView(UpdateView):
+class TicketUpdateView(LoginRequiredMixin, UpdateView):
     model = Ticket
     form_class = TicketForm
 
     def form_valid(self, form):
-        form.instance.modified_by = self.request.user.get_full_name()
+        form.instance.modified_by = self.request.user
         return super(TicketUpdateView, self).form_valid(form)
 
     def get_success_url(self, **kwargs):
         return reverse_lazy('ticket-edit', args = (self.object.id,))
 
 
-class TicketDeleteView(DeleteView):
+class TicketDeleteView(LoginRequiredMixin, DeleteView):
     model = Ticket
     form_class = TicketForm
     success_url = reverse_lazy('ticket-list')
