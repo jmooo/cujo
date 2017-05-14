@@ -8,15 +8,16 @@
 
 @import "../../node_modules/bootstrap/scss/bootstrap";
 @import "../../node_modules/font-awesome/scss/font-awesome";
-
+@import url('https://fonts.googleapis.com/css?family=Roboto');
 
 // Load these items first
 @import "variables";
 
 // Custom components
 @import "defaults";
-@import "footer";
+@import "banner";
 @import "header";
+@import "footer";
 @import "logo";
 @import "forms";
 @import "tables";

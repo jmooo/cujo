@@ -33,6 +33,7 @@ gulp.task('fonts', function() {
 });
 
 gulp.task('watch', function() {
+  gulp.start('build')
   livereload.listen();
   gulp.watch(scssPath + '/**/*.scss', ['styles']);
   gulp.watch(jsPath + '/**/*.js', ['scripts']);

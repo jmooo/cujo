@@ -41,6 +41,8 @@ SITE_ID = 1
 
 LOGIN_URL = '/login/'
 
+LOGIN_REDIRECT_URL = '/ticket/'
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
