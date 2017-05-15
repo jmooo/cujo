@@ -5,3 +5,12 @@ form {
     text-transform: uppercase;
   }
 }
+
+#login {
+  form {
+    a {
+      font-size: 14px;
+      color: $brand-teal;
+    }
+  }
+}

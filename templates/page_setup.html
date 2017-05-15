@@ -16,40 +16,44 @@
         </div>
       </div>
     </div>
+  {% endif %}
 
-    <div id="header">
-      <div class="container">
-        <div class="row">
-          <div class="col">
-            <nav class="navbar navbar-toggleable-md navbar-light">
-              <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <a class="navbar-brand" href="{% url 'ticket-list' %}">CuJo</a>
+  <div id="header">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <nav class="navbar navbar-toggleable-md navbar-light">
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="{% url 'ticket-list' %}">CuJo</a>
 
-              <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                  <li class="nav-item">
-                    <a class="nav-link" href="{% url 'ticket-list' %}">Home</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="{% url 'ticket-new' %}">
-                      New Ticket <i class="fa fa-plus" aria-hidden="true"></i>
-                    </a>
-                  </li>
-                </ul>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'ticket-list' %}">Home</a>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'ticket-new' %}">
+                    New Ticket <i class="fa fa-plus" aria-hidden="true"></i>
+                  </a>
+                </li>
+                {% endif %}
+              </ul>
+              {% if user.is_authenticated %}
                 <form name="searchform" method="GET" action="{% url 'ticket-list' %}" class="form-inline my-2 my-lg-0">
                   <input class="form-control mr-sm-2" type="search" name="q" value="{{ q }}" placeholder="Search">
                   <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">
                     <i class="fa fa-search" aria-hidden="true"></i></button>
                 </form>
-              </div>
-            </nav>
-          </div>
+              {% endif %}
+            </div>
+          </nav>
         </div>
       </div>
     </div>
-  {% endif %}
+  </div>
 
 
   <div id="main-content">

@@ -7,12 +7,23 @@
 {% block content %}
   <div id="login" class="row mt-5">
     <div class="col-4 offset-4">
-      <h2 class="text-right">CuJo</h2>
-      <form method="post">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <button class="btn btn-outline-primary" type="submit">Login</button>
-      </form>
+      <div class="card">
+        <div class="card-block">
+          <h3 class="card-title text-right">CuJo</h3>
+          <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div class="row">
+              <div class="col">
+                <button class="btn btn-outline-primary" type="submit">Login</button>
+              </div>
+              <div class="col">
+                <a href="{% url 'password_reset' %}" class="btn btn-link">Forgot password</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 {% endblock %}

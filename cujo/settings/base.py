@@ -10,30 +10,29 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
-import os
+import os, json
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+DEBUG = False
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
+# Handle retrieving private data from secrets.json, outside of git
+from django.core.exceptions import ImproperlyConfigured
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '%-(03gh%c8fs7luijedsracxabv_w1vo_fveuv#=5p)=b7%qtp'
+with open("secrets.json") as f:
+    secrets = json.loads(f.read())
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+def get_secret(setting, secrets=secrets):
+    """Get the secret variable or return explicit exception."""
+    try:
+        return secrets[setting]
+    except KeyError:
+        error_msg = "Oops, you forogot to set the {0} environment variable!".format(setting)
+        raise ImproperlyConfigured(error_msg)
 
-ALLOWED_HOSTS = ['localhost']
+SECRET_KEY = get_secret("SECRET_KEY")
 
 AUTH_USER_MODEL = 'account.AccountUser'
-
-# Enable use of 'if debug' in templates (google analytics, etc)
-INTERNAL_IPS = (
-    '0.0.0.0',
-    '127.0.0.1',
-)
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -96,19 +95,15 @@ TEMPLATES = [
 WSGI_APPLICATION = 'cujo.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'cujo',
-        'USER': 'cujo',
-        'PASSWORD': '2+CKbkpaT-Uy9tmsJ3QgZB?XjSnhuA@r',
-        'HOST': 'localhost',
+        'NAME': get_secret("DATABASE_NAME"),
+        'USER': get_secret("DATABASE_USER"),
+        'PASSWORD': get_secret("DATABASE_PASSWORD"),
+        'HOST': get_secret("DATABASE_HOST"),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -147,9 +142,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-
-# For production only
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),

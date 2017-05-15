@@ -2,7 +2,7 @@
 # Created by https://www.gitignore.io/api/python,osx,node
 
 static/
-OLDSITE/
+/secrets*.json
 
 # Don't check in migraitons while heavy in development
 migrations/
