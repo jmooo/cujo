@@ -11,16 +11,18 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os, json
+from pathlib import Path
+from django.core.exceptions import ImproperlyConfigured
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 DEBUG = False
 
 # Handle retrieving private data from secrets.json, outside of git
-from django.core.exceptions import ImproperlyConfigured
-
-with open("secrets.json") as f:
-    secrets = json.loads(f.read())
+secrets_file = Path("./secrets.json")
+if secrets_file.exists:
+    with open(secrets_file) as f:
+        secrets = json.loads(f.read())
 
 def get_secret(setting, secrets=secrets):
     """Get the secret variable or return explicit exception."""
@@ -102,7 +104,7 @@ DATABASES = {
         'USER': get_secret("DATABASE_USER"),
         'PASSWORD': get_secret("DATABASE_PASSWORD"),
         'HOST': get_secret("DATABASE_HOST"),
-    }
+    },
 }
 
 # Password validation

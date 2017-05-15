@@ -60,7 +60,7 @@ class AccountUser(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ['first_name', 'last_name', 'account',]
 
     def get_full_name(self):
-        full_name = '%s %s' % (self.first_name, self.last_name)
+        full_name = '{0} {1}'.format(self.first_name, self.last_name)
         return full_name.strip()
 
     def get_short_name(self):

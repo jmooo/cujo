@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/fxer/cujo.svg?branch=master)](https://travis-ci.org/fxer/cujo)
+
 # Custom Job (cujo) Work Ticket Manager
 Ticket system combines management of several concepts, such as work requests, job logs, and service tickets.
 
@@ -15,12 +17,13 @@ Ticket system combines management of several concepts, such as work requests, jo
 * `gulp watch` - Build and auto-reload changes to your scss & js
 * `./manage.py makemigrations` - Prepare migrations
 * `./manage.py migrate` - Run migrations (needs all db privs for this, not just I.S.U.D)
+* `./manage.py test --settings=cujo.settings.test` - Run tests of all apps
 
 #### Managing settings and secrets
 To choose between dev/stage/prod.py settings append this to your env file, probably at `/<venvs>/cujo/bin/postactivate`:
 * `export DJANGO_SETTINGS_MODULE="cujo.settings.dev"`
 
-To keep your usernames/passwords out of git rename [`settings.json.example`](settings.json.example) to `settings.json` in the root project folder.
+To keep your usernames/passwords out of git rename [`secrets.json.example`](secrets.json.example) to `secrets.json` in the root project folder.
 
 
 ## Hot tips
