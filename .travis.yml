@@ -10,7 +10,8 @@ addons:
   postgresql: "9.6"
 
 env:
-  - DJANGO_SETTINGS_MODULE='cujo.settings.test'
+  global:
+    - DJANGO_SETTINGS_MODULE="cujo.settings.test"
 
 install:
   - pip install -r requirements.txt
