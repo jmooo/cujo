@@ -18,22 +18,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 
 DEBUG = False
 
-# Handle retrieving private data from secrets.json, outside of git
-secrets_file = Path("./secrets.json")
-if secrets_file.exists:
-    with open(secrets_file) as f:
-        secrets = json.loads(f.read())
-
-def get_secret(setting, secrets=secrets):
-    """Get the secret variable or return explicit exception."""
-    try:
-        return secrets[setting]
-    except KeyError:
-        error_msg = "Oops, you forogot to set the {0} environment variable!".format(setting)
-        raise ImproperlyConfigured(error_msg)
-
-SECRET_KEY = get_secret("SECRET_KEY")
-
 AUTH_USER_MODEL = 'account.AccountUser'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -97,16 +81,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'cujo.wsgi.application'
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': get_secret("DATABASE_NAME"),
-        'USER': get_secret("DATABASE_USER"),
-        'PASSWORD': get_secret("DATABASE_PASSWORD"),
-        'HOST': get_secret("DATABASE_HOST"),
-    },
-}
-
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
@@ -148,3 +122,17 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+
+# Handle retrieving private data from secrets.json, outside of git
+secrets_file = Path("./secrets.json")
+if secrets_file.exists():
+    with open(secrets_file) as f:
+        secrets = json.loads(f.read())
+
+    def get_secret(setting, secrets=secrets):
+        """Get the secret variable or return explicit exception."""
+        try:
+            return secrets[setting]
+        except KeyError:
+            error_msg = "Oops, you forogot to set the {0} environment variable!".format(setting)
+            raise ImproperlyConfigured(error_msg)

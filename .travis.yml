@@ -6,9 +6,6 @@ language: python
 python:
   - "3.6"
 
-env:
-  - DJANGO=1.11.1
-
 addons:
   postgresql: "9.6"
 
@@ -28,5 +25,4 @@ before_script:
 
 script:
   - gulp
-  - python manage.py migrate
   - python manage.py test
