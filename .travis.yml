@@ -25,6 +25,7 @@ before_script:
   - psql -c "GRANT ALL PRIVILEGES on DATABASE test_cujo to django_tester;" -U postgres
   - gulp
   - python manage.py makemigrations
-
+  – python manage.py migrate
+  
 script:
   - python manage.py test
