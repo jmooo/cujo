@@ -14,7 +14,7 @@ env:
     - DJANGO_SETTINGS_MODULE="cujo.settings.test"
 
 install:
-  - pip install -r requirements.txt
+  - pip install --editable .[tests]
   - npm install -g gulp
   - npm install
 
@@ -26,4 +26,4 @@ before_script:
   - gulp
 
 script:
-  - python manage.py test
+  - tox

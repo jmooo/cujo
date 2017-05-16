@@ -1,0 +1,7 @@
+# .coveragerc to control coverage.py
+
+[run]
+source = apps
+omit =
+    *__init__*
+    *migrations*

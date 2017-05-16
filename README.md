@@ -9,15 +9,17 @@ Ticket system combines management of several concepts, such as work requests, jo
 * [PostgreSQL](https://www.postgresql.org/): Full-text search with [tsvector](https://www.postgresql.org/docs/current/static/datatype-textsearch.html)? Yes please.
 * [Bootstrap 4](https://v4-alpha.getbootstrap.com/): Longest alpha in history
 * [Gulp.js](http://gulpjs.com/): Webpack seems like overkill, currently.
-
+* [Tox](https://tox.readthedocs.io/en/latest/): Pull all the test tools together
+* [Pytest](https://docs.pytest.org/en/latest/): Writing tests with a simple `assert` is the life
+* [Coverage.py](https://coverage.readthedocs.io/en/latest): HTML formatted code coverage reports
 
 ## Installation
-* `pip install -r requirements.txt` - Install required components
+* `pip install --editable .[tests]` - Install required components
 * `npm install` - Install requirements from project.json
 * `gulp watch` - Build and auto-reload changes to your scss & js
 * `./manage.py makemigrations` - Prepare migrations
 * `./manage.py migrate` - Run migrations (needs all db privs for this, not just I.S.U.D)
-* `./manage.py test --settings=cujo.settings.test` - Run tests of all apps
+* `tox` - Run test suite
 
 #### Managing settings and secrets
 To choose between dev/stage/prod.py settings append this to your env file, probably at `/<venvs>/cujo/bin/postactivate`:
