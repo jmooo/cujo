@@ -4,8 +4,8 @@
 static/
 /secrets*.json
 
-# Don't check in migraitons while heavy in development
-migrations/
+**/migrations/[0-9]*.py
+
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
