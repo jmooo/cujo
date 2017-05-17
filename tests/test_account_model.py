@@ -1,67 +1,59 @@
-from django.test import TestCase
 from django.contrib.auth import get_user_model
 import pytest
 
-from apps.account.models import Account
 
-@pytest.mark.django_db(transaction=True)
-class AccountModelTest(TestCase):
+@pytest.mark.django_db
+class TestAccountModel:
 
-    user_email = "test@example.com"
-    user_password = "Test Pa$$word"
-    user_first_name = "Test"
-    user_last_name = "User"
-    account_name = "Test Account"
+    required_fields = {
+        'email': 'test@example.com',
+        'first_name': 'Test',
+        'last_name': 'User',
+        'password': 'Test Pa$$word',
+    }
 
-    def setUp(self):
-        self.account = Account.objects.create(name=self.account_name)
+    def test_account_creation(self, account):
+        assert str(account) == account.name
 
-        # DRY, make it easier to blank out an individual key to test ValueErrors
-        self.expected_fields = {
-            'email': self.user_email,
-            'first_name': self.user_first_name,
-            'last_name': self.user_last_name,
-            'password': self.user_password,
-            'account': self.account,
-        }
+    def test_create_user(self, account):
+        user = get_user_model().objects.create_user(account=account, **self.required_fields)
+        assert user.email == self.required_fields['email']
+        assert user.first_name == self.required_fields['first_name']
+        assert user.last_name == self.required_fields['last_name']
+        assert user.account == account
+        assert user.is_active
+        assert not user.is_staff
+        assert not user.is_superuser
+        assert user.get_short_name() == self.required_fields['first_name']
+        assert user.get_full_name() == '{0} {1}'.format(
+            self.required_fields['first_name'], self.required_fields['last_name'])
 
-    def tearDown(self):
-        self.account.delete()
+    def test_create_superuser(self, account):
+        user = get_user_model().objects.create_superuser(account=account.pk, **self.required_fields)
+        assert user.is_active
+        assert user.is_staff
+        assert user.is_superuser
 
-    def test_account_creation(self):
-        self.assertEqual(self.account.__str__(), self.account_name)
+    def test_empty_email(self, account):
+        fields = self.required_fields.copy()
+        fields['email'] = ''
+        with pytest.raises(ValueError) as excinfo:
+            get_user_model().objects.create_user(account=account, **fields)
 
-    def test_create_user(self):
-        user = get_user_model().objects.create_user(**self.expected_fields)
-        self.assertEqual(user.email, self.user_email)
-        self.assertEqual(user.first_name, self.user_first_name)
-        self.assertEqual(user.last_name, self.user_last_name)
-        self.assertEqual(user.account, self.account)
-        self.assertTrue(user.is_active)
-        self.assertFalse(user.is_staff)
-        self.assertFalse(user.is_superuser)
-        self.assertEqual(user.get_short_name(), self.user_first_name)
-        self.assertEqual(user.get_full_name(), '{0} {1}'.format(self.user_first_name, self.user_last_name))
+    def test_empty_first_name(self, account):
+        fields = self.required_fields.copy()
+        fields['first_name'] = ''
+        with pytest.raises(ValueError) as excinfo:
+            get_user_model().objects.create_user(account=account, **fields)
 
-    def test_create_superuser(self):
-        self.expected_fields['account'] = self.account.pk
-        user = get_user_model().objects.create_superuser(**self.expected_fields)
-        self.assertTrue(user.is_active)
-        self.assertTrue(user.is_staff)
-        self.assertTrue(user.is_superuser)
+    def test_empty_last_name(self, account):
+        fields = self.required_fields.copy()
+        fields['last_name'] = ''
+        with pytest.raises(ValueError) as excinfo:
+            get_user_model().objects.create_user(account=account, **fields)
 
-    def test_empty_email(self):
-        self.expected_fields['email'] = ''
-        self.assertRaises(ValueError, get_user_model().objects.create_user, **self.expected_fields)
-
-    def test_empty_first_name(self):
-        self.expected_fields['first_name'] = ''
-        self.assertRaises(ValueError, get_user_model().objects.create_user, **self.expected_fields)
-
-    def test_empty_last_name(self):
-        self.expected_fields['last_name'] = ''
-        self.assertRaises(ValueError, get_user_model().objects.create_user, **self.expected_fields)
-
-    def test_empty_account(self):
-        self.expected_fields['account'] = ''
-        self.assertRaises(ValueError, get_user_model().objects.create_user, **self.expected_fields)
+    def test_empty_account(self, account):
+        fields = self.required_fields.copy()
+        fields['account'] = ''
+        with pytest.raises(ValueError) as excinfo:
+            get_user_model().objects.create_user(**fields)
