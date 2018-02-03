@@ -2,6 +2,7 @@ from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Fieldset, HTML, Div
 from crispy_forms.bootstrap import FormActions, PrependedText
+
 from .models import Ticket
 
 
@@ -34,8 +35,9 @@ class TicketForm(forms.ModelForm):
             ),
             Div(
                 Div('installers', css_class='col self.helper.form_id'),
-                Div(PrependedText('date_completed', '<i class="fa fa-calendar" aria-hidden="true"></i>'),
-                                    css_class='col'),
+                Div(PrependedText('date_completed',
+                    '<i class="fa fa-calendar" aria-hidden="true"></i>'),
+                    css_class='col'),
                 css_class='row',
             ),
         ),
@@ -52,14 +54,14 @@ class TicketForm(forms.ModelForm):
 
     class Meta:
         model = Ticket
-        fields = ('customer', 'salesperson', 'address', 'phone', 'email',
-                    'installers', 'work_requested', 'work_completed', 'date_completed',)
+        fields = ('customer', 'salesperson', 'address', 'phone', 'email', 'installers',
+                  'work_requested', 'work_completed', 'date_completed',)
         widgets = {
-          'address': forms.Textarea(attrs={'rows':4}),
-          'email': forms.TextInput(attrs={'placeholder':'Email'}),
-          'phone': forms.TextInput(attrs={'placeholder':'Phone'}),
-          'work_requested': forms.Textarea(attrs={'rows':10}),
-          'work_completed': forms.Textarea(attrs={'rows':10}),
+          'address': forms.Textarea(attrs={'rows': 4}),
+          'email': forms.TextInput(attrs={'placeholder': 'Email'}),
+          'phone': forms.TextInput(attrs={'placeholder': 'Phone'}),
+          'work_requested': forms.Textarea(attrs={'rows': 10}),
+          'work_completed': forms.Textarea(attrs={'rows': 10}),
           'date_completed': forms.DateInput(format='%b %d, %Y'),
         }
 

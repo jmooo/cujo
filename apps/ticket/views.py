@@ -7,6 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Ticket
 from .forms import TicketForm
 
+
 class TicketListView(LoginRequiredMixin, ListView):
     model = Ticket
 
@@ -17,8 +18,8 @@ class TicketListView(LoginRequiredMixin, ListView):
         if q:
             query = SearchQuery(q)
             qs = qs.annotate(rank=SearchRank(F('search_vector'), query)) \
-                    .filter(search_vector=query) \
-                    .order_by('-rank')
+                .filter(search_vector=query) \
+                .order_by('-rank')
 
         # Only return tickets attached to the user's account!
         return qs.filter(account_id=self.request.user.account_id)
@@ -41,7 +42,7 @@ class TicketCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_url(self, **kwargs):
-        return reverse_lazy('ticket-edit', args = (self.object.id,))
+        return reverse_lazy('ticket-edit', args=(self.object.id,))
 
 
 class TicketUpdateView(LoginRequiredMixin, UpdateView):
@@ -58,7 +59,7 @@ class TicketUpdateView(LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
 
     def get_success_url(self, **kwargs):
-        return reverse_lazy('ticket-edit', args = (self.object.id,))
+        return reverse_lazy('ticket-edit', args=(self.object.id,))
 
 
 class TicketDeleteView(LoginRequiredMixin, DeleteView):

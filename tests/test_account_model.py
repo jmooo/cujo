@@ -37,23 +37,23 @@ class TestAccountModel:
     def test_empty_email(self, account):
         fields = self.required_fields.copy()
         fields['email'] = ''
-        with pytest.raises(ValueError) as excinfo:
+        with pytest.raises(ValueError):
             get_user_model().objects.create_user(account=account, **fields)
 
     def test_empty_first_name(self, account):
         fields = self.required_fields.copy()
         fields['first_name'] = ''
-        with pytest.raises(ValueError) as excinfo:
+        with pytest.raises(ValueError):
             get_user_model().objects.create_user(account=account, **fields)
 
     def test_empty_last_name(self, account):
         fields = self.required_fields.copy()
         fields['last_name'] = ''
-        with pytest.raises(ValueError) as excinfo:
+        with pytest.raises(ValueError):
             get_user_model().objects.create_user(account=account, **fields)
 
     def test_empty_account(self, account):
         fields = self.required_fields.copy()
         fields['account'] = ''
-        with pytest.raises(ValueError) as excinfo:
+        with pytest.raises(ValueError):
             get_user_model().objects.create_user(**fields)

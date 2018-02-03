@@ -9,6 +9,7 @@ from apps.account.models import Account
 def account(request):
     return Account.objects.create(name="Test Account")
 
+
 @pytest.fixture
 @pytest.mark.django_db
 def accountuser(request, account):

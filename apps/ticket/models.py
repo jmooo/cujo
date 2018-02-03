@@ -3,6 +3,7 @@ from django.contrib.postgres.search import SearchVector, SearchVectorField
 from django.contrib.postgres.indexes import GinIndex
 from django.conf import settings
 
+
 class TicketManager(models.Manager):
     """ Add document fields we want to the queryset
     """
@@ -16,10 +17,16 @@ class TicketManager(models.Manager):
 
 class Ticket(models.Model):
     account = models.ForeignKey('account.Account', on_delete=models.CASCADE)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
-                                    related_name='ticket_created_by', null=True)
-    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
-                                    related_name='ticket_modified_by', null=True)
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        related_name='ticket_created_by',
+        null=True)
+    modified_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        related_name='ticket_modified_by',
+        null=True)
     salesperson = models.CharField(max_length=255)
     customer = models.CharField(max_length=255)
     address = models.TextField()

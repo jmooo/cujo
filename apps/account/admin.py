@@ -14,16 +14,18 @@ class AccountUserAdmin(UserAdmin):
         (None, {'fields': ('email', 'password')}),
         (_('User info'), {'fields': ('first_name', 'last_name', 'account',)}),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
-                                        'groups', 'user_permissions')}),
+                                       'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_created')}),
     )
     form = AccountUserChangeForm
 
     add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('email', 'first_name', 'last_name', 'password1', 'password2')}
-        ),
+        (None,
+            {
+                'classes': ('wide',),
+                'fields': ('email', 'first_name', 'last_name', 'password1', 'password2')
+            }
+         ),
     )
     add_form = AccountUserCreationForm
 

@@ -14,6 +14,7 @@ def humanizetime(time):
         return naturalday(time)
     return naturaltime(time)
 
+
 @register.filter
 def user_exists(user):
     """ If an AccountUser has been deleted, created_by/modified_by fields will be set NULL
