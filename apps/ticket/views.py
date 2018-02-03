@@ -19,7 +19,9 @@ class TicketListView(LoginRequiredMixin, ListView):
             qs = qs.annotate(rank=SearchRank(F('search_vector'), query)) \
                     .filter(search_vector=query) \
                     .order_by('-rank')
-        return qs
+
+        # Only return tickets attached to the user's account!
+        return qs.filter(account_id=self.request.user.account_id)
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(
@@ -32,9 +34,11 @@ class TicketCreateView(LoginRequiredMixin, CreateView):
     form_class = TicketForm
 
     def form_valid(self, form):
+        """ Set internal fields the user can't edit """
         form.instance.created_by = self.request.user
-        form.instance.modified_by = form.instance.created_by
-        return super(TicketCreateView, self).form_valid(form)
+        form.instance.modified_by = self.request.user
+        form.instance.account_id = self.request.user.account_id
+        return super().form_valid(form)
 
     def get_success_url(self, **kwargs):
         return reverse_lazy('ticket-edit', args = (self.object.id,))
@@ -44,9 +48,14 @@ class TicketUpdateView(LoginRequiredMixin, UpdateView):
     model = Ticket
     form_class = TicketForm
 
+    def get_queryset(self):
+        """ Only return ticket if it is attached to user's account """
+        return super().get_queryset().filter(account_id=self.request.user.account_id)
+
     def form_valid(self, form):
+        """ Set internal fields the user can't edit """
         form.instance.modified_by = self.request.user
-        return super(TicketUpdateView, self).form_valid(form)
+        return super().form_valid(form)
 
     def get_success_url(self, **kwargs):
         return reverse_lazy('ticket-edit', args = (self.object.id,))
@@ -56,3 +65,7 @@ class TicketDeleteView(LoginRequiredMixin, DeleteView):
     model = Ticket
     form_class = TicketForm
     success_url = reverse_lazy('ticket-list')
+
+    def get_queryset(self):
+        """ Only return ticket if it is attached to users account """
+        return super().get_queryset().filter(account_id=self.request.user.account_id)

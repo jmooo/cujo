@@ -11,7 +11,9 @@ class TestTicketModel:
         'salesperson': 'Test Salesperson',
         'address': 'Test Address',
     }
-    
+
     def test_create_ticket(self, account):
         ticket = Ticket.objects.create(account=account, **self.required_fields)
         assert str(ticket) == self.required_fields['customer']
+        assert ticket.salesperson == self.required_fields['salesperson']
+        assert ticket.address == self.required_fields['address']

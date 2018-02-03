@@ -5,8 +5,8 @@ Ticket system combines management of several concepts, such as work requests, jo
 
 
 ## Technologies
-* [Python 3.6+](https://www.python.org/)
-* [Django](https://www.djangoproject.com/)
+* [Python 3](https://www.python.org/)
+* [Django 2](https://www.djangoproject.com/)
 * [PostgreSQL](https://www.postgresql.org/): Full-text search with [tsvector](https://www.postgresql.org/docs/current/static/datatype-textsearch.html)? Yes please.
 * [Bootstrap 4](https://v4-alpha.getbootstrap.com/): Longest alpha in history
 * [Gulp.js](http://gulpjs.com/): Webpack seems like overkill, currently.
@@ -16,13 +16,14 @@ Ticket system combines management of several concepts, such as work requests, jo
 
 
 ## Installation
-* ``mkvirtualenv --python=`which python3` cujo`` - Create new python3 venv, for when homebrew wrecks yours.
+* ``mkvirtualenv --python=`which python3` cujo`` - Create new python3 venv, for when homebrew wrecks yours
 * `pip install --editable .[tests]` - Install required components
 * `npm install` - Install requirements from project.json
 * `gulp watch` - Build and auto-reload changes to your scss & js
 * `./manage.py makemigrations` - Prepare migrations
 * `./manage.py migrate` - Run migrations (needs all db privs for this, not just I.S.U.D)
 * `tox` - Run test suite
+* View coverage reports at: `cujo/htmlcov/index.html`
 
 
 #### Managing settings and secrets

@@ -1,9 +1,9 @@
-from django.conf.urls import url
+from django.urls import path
 from . import views
 
 urlpatterns = [
-    url(r'^ticket/$', views.TicketListView.as_view(), name='ticket-list'),
-    url(r'^ticket/new/$', views.TicketCreateView.as_view(), name='ticket-new'),
-    url(r'^ticket/(?P<pk>[0-9]+)/$', views.TicketUpdateView.as_view(), name='ticket-edit'),
-    url(r'^ticket/(?P<pk>[0-9]+)/delete/$', views.TicketDeleteView.as_view(), name='ticket-delete'),
+    path('ticket/', views.TicketListView.as_view(), name='ticket-list'),
+    path('ticket/new/', views.TicketCreateView.as_view(), name='ticket-new'),
+    path('ticket/<int:pk>/', views.TicketUpdateView.as_view(), name='ticket-edit'),
+    path('ticket/<int:pk>/delete/', views.TicketDeleteView.as_view(), name='ticket-delete'),
 ]
