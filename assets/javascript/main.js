@@ -1,7 +1,8 @@
-// Bootstrap requres specific capitalization (and order of imports) for jQuery and Tether
+// Browserify master list of js imports
 global.jQuery = require('jquery');
-global.Tether = require('tether');
+global.Popper = require('popper.js');
 require('bootstrap');
+
 
 var $ = global.jQuery;
 window.$ = $;
