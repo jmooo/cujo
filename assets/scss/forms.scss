@@ -12,5 +12,9 @@ form {
       font-size: 14px;
       color: $brand-teal;
     }
+    .btn-link.float-right {
+      // right align Forgot Password link
+      padding-right: 0px;
+    }
   }
 }

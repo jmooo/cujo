@@ -8,7 +8,7 @@
   <div id="login" class="row mt-5">
     <div class="col-4 offset-4">
       <div class="card">
-        <div class="card-block">
+        <div class="card-body">
           <h3 class="card-title text-right">CuJo</h3>
           <form method="post">
             {% csrf_token %}
@@ -18,7 +18,7 @@
                 <button class="btn btn-outline-primary" type="submit">Login</button>
               </div>
               <div class="col">
-                <a href="{% url 'password_reset' %}" class="btn btn-link">Forgot password</a>
+                <a href="{% url 'password_reset' %}" class="btn btn-link float-right">Forgot password</a>
               </div>
             </div>
           </form>
